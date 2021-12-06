@@ -273,6 +273,16 @@
       <version>2.10</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.47</version>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.18</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -367,6 +377,21 @@
           <exclude>**/*.java</exclude>
         </excludes>
       </resource>
+      <resource>
+        <directory>src/main</directory>
+        <includes>
+          <include>**/*.xml</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**/*.xml</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
     </resources>
     <testResources>
       <testResource>
@@ -374,6 +399,12 @@
         <excludes>
           <exclude>**/*.java</exclude>
         </excludes>
+      </testResource>
+      <testResource>
+        <directory>src/main</directory>
+        <includes>
+          <include>**/*.xml</include>
+        </includes>
       </testResource>
     </testResources>
   </build>
