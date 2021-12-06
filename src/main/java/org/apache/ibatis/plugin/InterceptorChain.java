@@ -33,6 +33,11 @@ public class InterceptorChain {
     return target;
   }
 
+  /**
+   * 添加插件
+   * Ash-Heung
+   * @param interceptor
+   */
   public void addInterceptor(Interceptor interceptor) {
     interceptors.add(interceptor);
   }
