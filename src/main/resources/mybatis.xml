@@ -3,12 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://127.0.0.1:3306/sakila?serverTimezone=Asia/Shanghai&amp;nullCatalogMeansCurrent=true"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/sakila?characterEncoding=utf8&amp;nullCatalogMeansCurrent=true"/>
                 <property name="username" value="root"/>
                 <property name="password" value="root"/>
             </dataSource>
