@@ -107,9 +107,10 @@ public class TypeAliasRegistry {
       if (string == null) {
         return null;
       }
-      // issue #748
+      // 转成小写
       String key = string.toLowerCase(Locale.ENGLISH);
       Class<T> value;
+      // 注意 部分 部分类型的定义是在 Configuration 构造方法中
       if (TYPE_ALIASES.containsKey(key)) {
         value = (Class<T>) TYPE_ALIASES.get(key);
       } else {
@@ -156,6 +157,7 @@ public class TypeAliasRegistry {
     if (TYPE_ALIASES.containsKey(key) && TYPE_ALIASES.get(key) != null && !TYPE_ALIASES.get(key).equals(value)) {
       throw new TypeException("The alias '" + alias + "' is already mapped to the value '" + TYPE_ALIASES.get(key).getName() + "'.");
     }
+    // 这里保存定义的 类型
     TYPE_ALIASES.put(key, value);
   }
 

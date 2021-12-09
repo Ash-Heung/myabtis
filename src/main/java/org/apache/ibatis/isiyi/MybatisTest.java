@@ -27,7 +27,9 @@ public class MybatisTest {
         try {
             // 根据 mybatis.xml 配置的信息得到 sqlSessionFactory
             String resource = "mybatis.xml";
+            // 加载配置文件流
             InputStream xml = Resources.getResourceAsStream(resource);
+            // 通过配置文件创建 SqlSessionFactory
             SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(xml);
             SqlSession sqlSession = sqlSessionFactory.openSession();
             ActorMapper actorMapper = sqlSession.getMapper(ActorMapper.class);

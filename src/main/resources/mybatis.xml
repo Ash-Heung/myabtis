@@ -11,7 +11,7 @@
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/sakila?characterEncoding=utf8&amp;nullCatalogMeansCurrent=true"/>
+                <property name="url" value="jdbc:mysql://localhost:33061/sakila?characterEncoding=utf8&amp;nullCatalogMeansCurrent=true"/>
                 <property name="username" value="root"/>
                 <property name="password" value="root"/>
             </dataSource>

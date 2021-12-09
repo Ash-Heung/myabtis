@@ -17,6 +17,7 @@ package org.apache.ibatis.builder.xml;
 
 import java.io.InputStream;
 import java.io.Reader;
+import java.util.Objects;
 import java.util.Properties;
 import javax.sql.DataSource;
 
@@ -91,14 +92,19 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   public Configuration parse() {
+    // 判断是否曾经加载过。说明配置文件在jvm启动的时候加载一次。
+    // 思考，如果配置文件变更，如何在不重启jvm的方式下动态加载？
     if (parsed) {
       throw new BuilderException("Each XMLConfigBuilder can only be used once.");
     }
+    // 设置加载标记
     parsed = true;
+    // parser.evalNode("/configuration") 选取节点 configuration
     parseConfiguration(parser.evalNode("/configuration"));
     return configuration;
   }
 
+  // 解析  /configuration 节点下的配置
   private void parseConfiguration(XNode root) {
     try {
       //issue #117 read properties first
@@ -112,10 +118,11 @@ public class XMLConfigBuilder extends BaseBuilder {
       objectWrapperFactoryElement(root.evalNode("objectWrapperFactory"));
       reflectorFactoryElement(root.evalNode("reflectorFactory"));
       settingsElement(settings);
-      // read it after objectFactory and objectWrapperFactory issue #631
+      // 解析获取 数据库连接环境
       environmentsElement(root.evalNode("environments"));
       databaseIdProviderElement(root.evalNode("databaseIdProvider"));
       typeHandlerElement(root.evalNode("typeHandlers"));
+      // todo 解析 mapper 配置
       mapperElement(root.evalNode("mappers"));
     } catch (Exception e) {
       throw new BuilderException("Error parsing SQL Mapper Configuration. Cause: " + e, e);
@@ -268,6 +275,11 @@ public class XMLConfigBuilder extends BaseBuilder {
     configuration.setConfigurationFactory(resolveClass(props.getProperty("configurationFactory")));
   }
 
+  /**
+   *  解析获取数据库连接环境
+   * @param context
+   * @throws Exception
+   */
   private void environmentsElement(XNode context) throws Exception {
     if (context != null) {
       if (environment == null) {
@@ -275,8 +287,11 @@ public class XMLConfigBuilder extends BaseBuilder {
       }
       for (XNode child : context.getChildren()) {
         String id = child.getStringAttribute("id");
+        // 判断 environment 与 id 值是否一直，一直返回 true, 否则为false
         if (isSpecifiedEnvironment(id)) {
+          //  事务管理器
           TransactionFactory txFactory = transactionManagerElement(child.evalNode("transactionManager"));
+          // 数据源
           DataSourceFactory dsFactory = dataSourceElement(child.evalNode("dataSource"));
           DataSource dataSource = dsFactory.getDataSource();
           Environment.Builder environmentBuilder = new Environment.Builder(id)
